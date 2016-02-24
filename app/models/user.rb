@@ -1,7 +1,16 @@
 class User < ActiveRecord::Base
-
-  def user_with_that_email_already_exist?
+  #Collects all of the to-dos added or edited most recently by this user
+  #
+  #Returns an array
+  def todos_by_user
+    list_todos = Todo.where({"user_id" => self.id})
+    if list_todos.empty?
+      return nil
+    else
+      return list_todos
+    end
   end
+
 
 		#Returns @errors
   	def get_errors

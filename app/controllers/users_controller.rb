@@ -18,8 +18,13 @@ MyApp.post "/add_user" do
 end
 
 MyApp.get "/users/profile/:user_id" do
+	@current_user = User.find_by_id(session["user_id"])
   	@user = User.find(params[:user_id])
+  	if @current_user != nil
    erb :"users/profile"
+	else
+   erb :"logins/denied_access"
+	end
 end
 
 MyApp.post "/edit_user/:user_id" do

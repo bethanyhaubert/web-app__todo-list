@@ -1,5 +1,6 @@
 <h1>Welcome! Here are the current To-dos:</h1>
 
+<% if @todo_list != nil %>
 <ul>
   <% @todo_list.each do |todo| %>
   	<li> 
@@ -7,6 +8,7 @@
     </li>
   <% end %>
 </ul>
+<% end %>
 
 <a href="/todos/new"> Add a new to-do </a>
 
@@ -21,7 +23,7 @@
 
   <p>
     Password:
-    <input type="text" name="password">
+    <input type="password" name="password">
   </p>
 
   <input type="submit">
