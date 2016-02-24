@@ -63,3 +63,17 @@ MyApp.post "/edit_todo/:todo_id" do
 	erb :"logins/denied_access"
 	end	
 end
+
+MyApp.post "/todo_delete/:todo_id" do
+	@current_user = User.find_by_id(session["user_id"])
+	if @current_user != nil
+		@todo = Todo.find(params[:todo_id])
+		@todo.delete
+  		redirect :"success"
+  	else
+  		erb :"logins/denied_access"
+	end
+end
+
+
+
