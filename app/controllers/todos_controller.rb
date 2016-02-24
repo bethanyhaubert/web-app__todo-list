@@ -36,9 +36,14 @@ MyApp.post "/add_todo" do
 	end
 end
 
-MyApp.get "/todo_info/:todo.id" do
-	@todo = Todo.find_by_id(params[:todo_id])
-	erb :"todo_info/#{@todo.id}"
+MyApp.get "/todo_info/:todo_id" do
+	@current_user = User.find_by_id(session["user_id"])
+	if @current_user != nil
+		@todo = Todo.find(params[:todo_id])
+		erb :"todos/todo_info"
+	else
+		erb :"logins/denied_access"
+	end
 end
 
 MyApp.post "/edit_todo/:todo_id" do

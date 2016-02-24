@@ -1,8 +1,12 @@
 <h1>Welcome! Here are the current To-dos:</h1>
 
-<% @todo_list.each do |todo| %>
-	<a href="/todo_info/<%= @todo.id %>"> <%= @todo.title %></a>
-	<% end %>
+<ul>
+  <% @todo_list.each do |todo| %>
+  	<li> 
+      <a href="/todo_info/<%= todo.id %>"> <%= todo.title %></a>
+    </li>
+  <% end %>
+</ul>
 
 <a href="/todos/new"> Add a new to-do </a>
 
@@ -23,4 +27,6 @@
   <input type="submit">
 </form>
 
-<a href="/users/create_user"> or create new user </a>
+<p><a href="/users/create_user"> or create new user </a></p>
+
+<p><a href="/view_users"> View all users </a></p>

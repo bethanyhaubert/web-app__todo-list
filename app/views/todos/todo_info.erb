@@ -1,8 +1,15 @@
 <h1 style="color:green;">Todo Info</h1>
 
-<h3> <%= @todo.name %> </h3> last edited by <%= @current_user.id %>
+<h2> <%= @todo.title %> </h2> 
+<p> Last edited by <i><%= @current_user.name %>.</i> </p>
 
-<form action="/edit_todo/<%= todo.id %>" method="post">
+<% if @todo.description != nil %>
+	<h3> <%= @todo.description %> </h3>
+<% end %>
+
+
+Edit this to do:
+<form action="/edit_todo/<%= @todo.id %>" method="post">
 
   <input type="text" name="title" value="<%= @todo.title %>">
 
