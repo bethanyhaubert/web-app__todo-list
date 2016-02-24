@@ -1,7 +1,16 @@
-# This controller is for all the CRUD operations related to a Login.
+MyApp.post "/logins/create" do
+  @user = User.find_by_email(params["email"])
 
-# Note that "logins" are not stored in the database. But there is still
-# a reasonable way to think about a "login" as a resource which is created
-# and deleted (i.e. 'logging out').
-# 
-# Reading and Updating a login, however, make a little less sense.
+  if @user.password == params["password"]
+    session["user_id"] = @user.id
+
+    erb :"profile/#{@user.id}"
+  else
+    erb :"logins/login_failure"
+  end
+end
+
+MyApp.get "/logins/sign_out" do
+  session["user_id"] = nil
+  erb :"success"
+end
