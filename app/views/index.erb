@@ -1,6 +1,13 @@
-Welcome!
+<h1>Welcome! Here are the current To-dos:</h1>
 
-<h1>Log in</h1>
+<% @todo_list.each do |todo| %>
+	<a href="/todo_info/<%= @todo.id %>"> <%= @todo.title %></a>
+	<% end %>
+
+<a href="/todos/new"> Add a new to-do </a>
+
+
+<h3>Log in</h3>
 
 <form action="/logins/create" method="post">
   <p>
@@ -15,6 +22,5 @@ Welcome!
 
   <input type="submit">
 </form>
-
 
 <a href="/users/create_user"> or create new user </a>
