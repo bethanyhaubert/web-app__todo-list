@@ -11,9 +11,8 @@ class User < ActiveRecord::Base
     end
   end
 
-
 		#Returns @errors
-  	def get_errors
+  def get_errors
     	return @errors
  	end
 

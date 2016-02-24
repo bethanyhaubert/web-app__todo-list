@@ -4,6 +4,15 @@ MyApp.get "/" do
   erb :"index"
 end
 
+MyApp.post "/todo/complete" do
+	@current_user = User.find_by_id(session["user_id"])
+	if @current_user != nil
+	Todo.set_as_complete(params["set_completed_todos"])
+	redirect :"/"
+	else
+	erb :"logins/denied_access"
+	end
+end
 
 MyApp.get "/todos/new" do
 	@current_user = User.find_by_id(session["user_id"])

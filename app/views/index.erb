@@ -1,14 +1,21 @@
 <h1>Welcome! Here are the current To-dos:</h1>
 
-<% if @todo_list != nil %>
-<ul>
-  <% @todo_list.each do |todo| %>
-  	<li> 
-      <a href="/todo_info/<%= todo.id %>"> <%= todo.title %></a>
-    </li>
+
+<form action="/todo/complete" method="post">
+  <% if @todo_list != nil %>
+    <ul>
+      <% @todo_list.each do |todo| %>
+      	<li> 
+        <input type="checkbox" name="set_completed_todos[]" value="<%= todo.id %>"
+        <%= "checked" if todo.completed? %>>
+          <label><a href="/todo_info/<%= todo.id %>"> <%= todo.title %></a></label>
+        </li>
+      <% end %>
+    </ul>
   <% end %>
-</ul>
-<% end %>
+
+  <input type="submit">
+ </form>
 
 <a href="/todos/new"> Add a new to-do </a>
 
@@ -32,3 +39,4 @@
 <p><a href="/users/create_user"> or create new user </a></p>
 
 <p><a href="/view_users"> View all users </a></p>
+
