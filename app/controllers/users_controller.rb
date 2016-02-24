@@ -52,7 +52,7 @@ end
 
 MyApp.get "/view_users" do
 	@current_user = User.find_by_id(session["user_id"])
-	if @current_user.email == "bethany.haubert@gmail.com"
+	if @current_user != nil && @current_user.email == "bethany.haubert@gmail.com"
 		@user_list = User.all
   		erb :"users/view_users"
   	else
