@@ -1,0 +1,5 @@
+<h2 style="color:red;">Error</h2>
+
+<% @error_object.get_errors.each do |error_message| %>
+  <p style="color:red;">*<%= error_message %></p>
+<% end %>

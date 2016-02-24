@@ -1,0 +1,18 @@
+<h1 style="color:green;">Todo Info</h1>
+
+<h3> <%= @todo.name %> </h3> last edited by <%= @current_user.id %>
+
+<form action="/edit_todo/<%= todo.id %>" method="post">
+
+  <input type="text" name="title" value="<%= @todo.title %>">
+
+  <input type="text" name="description" value="<%= @todo.description %>">
+
+  <input type="submit">
+  
+</form>
+
+
+
+<p><a href="/"> Home </a></p>
+

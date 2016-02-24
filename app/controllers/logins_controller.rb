@@ -4,7 +4,7 @@ MyApp.post "/logins/create" do
   if @user.password == params["password"]
     session["user_id"] = @user.id
 
-    redirect :"profile/#{@user.id}"
+    redirect :"users/profile/#{@user.id}"
   else
     erb :"logins/login_failure"
   end

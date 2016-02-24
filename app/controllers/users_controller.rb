@@ -7,36 +7,51 @@ MyApp.post "/add_user" do
 	@user.name = params[:name]
 	@user.email = params[:email]
 	@user.password = params[:password]
-	# if @user.is_valid == true
+
+	if @user.is_valid == true
 	 	@user.save
-	# 	redirect :"profile/#{@user.id}"
-	# else
-	# 	@error_object = @user
-	# 	erb :"error"
-	# end
-	redirect :"profile/#{@user.id}"
+		redirect :"profile/#{@user.id}"
+	else
+		@error_object = @user
+		erb :"error"
+	end
 end
 
-MyApp.get "/profile/:user_id" do
+MyApp.get "/users/profile/:user_id" do
+	@current_user = User.find_by_id(session["user_id"])
   	@user = User.find(params[:user_id])
-  erb :"users/profile"
+
+  	if @user == @current_user
+   		erb :"users/profile/#{@user.id}"
+  	else
+   		erb :"logins/denied_access"
+   	end
 end
 
 MyApp.post "/edit_user/:user_id" do
+	@current_user = User.find_by_id(session["user_id"])
 	@user = User.find(params[:user_id])
-	@user.assign_attributes({name: params['name'], email: params['email'], password: params['password']})
-	# if @user.is_valid == true
-		@user.save
-	# 	redirect :"profile/#{@user.id}"
-	# else
-	# 	@error_object = @user
-	# 	erb :"error"
-	# end
-  redirect :"profile/#{@user.id}"
+	if @user == @current_user
+		@user.assign_attributes({name: params['name'], email: params['email'], password: params['password']})
+		if @user.is_valid == true
+			@user.save
+			redirect :"profile/#{@user.id}"
+		else
+			@error_object = @user
+			erb :"error"
+		end
+	else
+		erb :"logins/denied_access"
+	end
 end
 
 MyApp.post "/user_delete/:user_id" do
-	@user = user.find(params[:user_id])
-	@user.delete
-  erb :"success"
+	@current_user = User.find_by_id(session["user_id"])
+	@user = User.find(params[:user_id])
+	if @user == @current_user
+		@user.delete
+  		erb :"success"
+  	else
+  		erb :"logins/denied_access"
+	end
 end
