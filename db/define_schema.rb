@@ -13,8 +13,8 @@ DB.define_column("todos", "user_id", "integer")
 DB.define_column("todos", "category_id", "integer")
 
 DB.define_table("categories")
-DB.define_column("category", "name", "string")
+DB.define_column("categories", "name", "string")
 
 DB.define_table("assigners")
-DB.define_column("assigner", "user_id", "integer")
-DB.define_column("assigner", "todo_id", "integer")
+DB.define_column("assigners", "user_id", "integer")
+DB.define_column("assigners", "todo_id", "integer")

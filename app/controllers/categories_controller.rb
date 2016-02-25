@@ -27,7 +27,7 @@ end
 
 MyApp.get "/categories/:category_id/details" do
 	@category = Category.find(params[:category_id])
-  erb :"catagories/details"
+  erb :"categories/details"
 end
 
 MyApp.post "/categories/:category_id/edit" do
