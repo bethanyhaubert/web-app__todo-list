@@ -1,0 +1,22 @@
+<h1>Category Info</h1>
+
+<h2> <%= @category.name %> </h2> 
+
+
+Edit this cateogry:<br>
+<form action="/categories/<%= @category.id %>/edit" method="post">
+
+  <input type="text" name="name" value="<%= @category.name %>"> <br>
+
+  <input type="submit"><br>
+</form>
+
+<form action="/categories/<%= @category.id %>/delete" method="post">
+
+	<input type="submit" value="delete">
+</form>
+
+
+
+<p><a href="/"> Home </a></p>
+
