@@ -1,24 +1,30 @@
 <h1>Welcome! Here are the current To-dos:</h1>
 
-  <% if @error_object != nil %>
-    <h2 style="color:red;"><%= @error_object %></h2>
+  <% if @error != nil%>
+    <h2 style="color:red;"><%= @error %></h2>
   <% end %>
 
 
 
 <form action="/todos/complete" method="post">
-  <% if @todo_list != nil %>
-    <ul>
-      <% @todo_list.each do |todo| %>
-      	<li> 
-        <input type="checkbox" name="set_completed_todos[]" value="<%= todo.id %>"
-        <%= "checked" if todo.completed? %>>
-          <label><a href="/todo_info/<%= todo.id %>"> <%= todo.title %></a></label>
-        </li>
-      <% end %>
-    </ul>
-  <% end %>
-
+  <% if @category_list != nil%>
+    <% @category_list.each do |category| %>
+        <%= category.name %>
+          <ul>
+            <% if category.todos_that_belong_to_this_category != nil %>
+              <% category.todos_that_belong_to_this_category.each do |todo| %>
+            	<li> 
+              <input type="checkbox" name="set_completed_todos[]" value="<%= todo.id %>"
+                <%= "checked" if todo.completed? %>>
+                <label>
+                  <a href="/todo_info/<%= todo.id %>"> <%= todo.title %></a>
+                </label>
+              </li>
+              <% end %>
+            <% end %>
+          </ul>
+    <% end %>
+<% end %>
   <input type="submit">
  </form>
 

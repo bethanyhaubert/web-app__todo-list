@@ -1,7 +1,7 @@
 MyApp.before "/todos*" do
 	@current_user = User.find_by_id(session["user_id"])
 	if @current_user == nil
- 		@error_object = "You must login first"
+ 	session["temporary_error_message"] = "You must login first"
   redirect "/"
 	end
 end
@@ -10,6 +10,9 @@ MyApp.get "/" do
 	@todo_list =  Todo.all
 	@category_list = Category.all
 	@current_user = User.find_by_id(session["user_id"])
+	if session["temporary_error_message"] != nil
+		@error = "Please log in."
+	end
   erb :"index"
 end
 
@@ -26,8 +29,8 @@ end
 
 MyApp.post "/todos/create" do
 	todo = Todo.new
-	todo.title = params[:title]
-	todo.description = params[:description]
+	todo.title = params[:title].capitalize
+	todo.description = params[:description].capitalize
 	todo.completed = false
 	todo.user_id = params[:user_id]
 
@@ -52,7 +55,7 @@ end
 
 MyApp.post "/todos/:todo_id/edit" do
 	@todo = Todo.find(params[:todo_id])
-	@todo.assign_attributes({title: params['title'], description: params['description'], user_id: params['user_id']})
+	@todo.assign_attributes({title: params['title'].capitalize, description: params['description'].capitalize, user_id: params['user_id']})
 
 	if @todo.is_valid == true
 		@todo.save
