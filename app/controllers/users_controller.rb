@@ -1,8 +1,16 @@
-MyApp.get "/users/create_user" do
-  erb :"users/create_user"
+MyApp.before "/users/:user_id*" do
+	@current_user = User.find_by_id(session["user_id"])
+  	@user = User.find_by_id(params[:user_id])
+  	if @current_user != nil
+  	   erb :"logins/denied_access"
+	end
 end
 
-MyApp.post "/add_user" do
+MyApp.get "/users/create" do
+  erb :"users/create"
+end
+
+MyApp.post "/users/new" do
 	@user = User.new
 	@user.name = params[:name]
 	@user.email = params[:email]
@@ -10,26 +18,18 @@ MyApp.post "/add_user" do
 
 	if @user.is_valid == true
 	 	@user.save
-		redirect :"users/profile/#{@user.id}"
+		redirect :"users/#{@user.id}/profile"
 	else
 		@error_object = @user
 		erb :"error"
 	end
 end
 
-MyApp.get "/users/profile/:user_id" do
-	@current_user = User.find_by_id(session["user_id"])
-  	@user = User.find(params[:user_id])
-  	if @current_user != nil
+MyApp.get "/users/:user_id/profile" do
    erb :"users/profile"
-	else
-   erb :"logins/denied_access"
-	end
 end
 
-MyApp.post "/edit_user/:user_id" do
-	@current_user = User.find_by_id(session["user_id"])
-	@user = User.find(params[:user_id])
+MyApp.post "/users/:user_id/edit" do
 	if @user == @current_user
 		@user.assign_attributes({name: params['name'], email: params['email'], password: params['password']})
 		if @user.is_valid == true
@@ -40,13 +40,11 @@ MyApp.post "/edit_user/:user_id" do
 			erb :"error"
 		end
 	else
-		erb :"logins/denied_access"
+	erb :"logins/denied_access"
 	end
 end
 
-MyApp.post "/user_delete/:user_id" do
-	@current_user = User.find_by_id(session["user_id"])
-	@user = User.find(params[:user_id])
+MyApp.post "/users/:user_id/delete" do
 	if @user == @current_user
 		@user.delete
   		erb :"success"
@@ -55,12 +53,7 @@ MyApp.post "/user_delete/:user_id" do
 	end
 end
 
-MyApp.get "/view_users" do
-	@current_user = User.find_by_id(session["user_id"])
-	if @current_user != nil && @current_user.email == "bethany.haubert@gmail.com"
+MyApp.get "/users/show" do
 		@user_list = User.all
-  		erb :"users/view_users"
-  	else
-  		erb :"logins/denied_access"
-	end
+  		erb :"users/show"
 end

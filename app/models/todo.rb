@@ -7,6 +7,7 @@ class Todo < ActiveRecord::Base
   all_todos = Todo.all
   all_todos.each do |todo|
       todo.completed = false
+      todo.save
    end
  end
 

@@ -15,7 +15,7 @@
 
 <h3>Edit user:</h3>
 
-<form action="/edit_user/<%= @user.id %>" method="post">
+<form action="/users/<%= @user.id %>/edit" method="post">
 	Name:
 	  <input type="text" name="name" value="<%= @user.name %>"> </br>
 	Email Address:
@@ -23,14 +23,12 @@
 	Password:
 	  <input type="password" name="password" value="<%= @user.password%>"></br>
 
-	  <input type="submit"></br>
-  
+	  <input type="submit"></br> 
 </form>
 
-<form action="user_delete/<%= @user.id %>" method="post">
+<form action="users/<%= @user.id %>/delete" method="post">
 
 	<input type="submit" value="Delete">
-
 </form>
 
 <p><a href="/logins/sign_out"> Sign out </a></p>

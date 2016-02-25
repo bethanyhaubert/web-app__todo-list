@@ -4,9 +4,11 @@ MyApp.post "/logins/create" do
   if @user.password == params["password"]
     session["user_id"] = @user.id
 
-    redirect :"users/profile/#{@user.id}"
+    redirect :"users/#{@user.id}/profile"
   else
-    erb :"logins/login_failure"
+  	@todo_list =  Todo.all
+  	@error_object = "You must login first"
+    redirect :"/"
   end
 end
 

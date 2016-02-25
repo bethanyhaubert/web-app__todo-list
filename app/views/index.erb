@@ -1,7 +1,10 @@
 <h1>Welcome! Here are the current To-dos:</h1>
 
+  <% if @error_object != nil %>
+    <h2 style="color:red;"><%= @error_object %></h2>
+  <% end %>
 
-<form action="/todo/complete" method="post">
+<form action="/todos/complete" method="post">
   <% if @todo_list != nil %>
     <ul>
       <% @todo_list.each do |todo| %>
@@ -36,7 +39,7 @@
   <input type="submit">
 </form>
 
-<p><a href="/users/create_user"> or create new user </a></p>
+<p><a href="/users/new"> or create new user </a></p>
 
-<p><a href="/view_users"> View all users </a></p>
+<p><a href="/users/show"> View all users </a></p>
 
