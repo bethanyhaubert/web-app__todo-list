@@ -1,7 +1,8 @@
 MyApp.before "/todos*" do
 	@current_user = User.find_by_id(session["user_id"])
 	if @current_user == nil
-  erb :"logins/denied_access"
+	@error_object = "You must login first"
+  erb :"index"
 	end
 end
 
@@ -13,10 +14,12 @@ end
 
 MyApp.post "/todos/complete" do
 	Todo.set_as_complete(params["set_completed_todos"])
-  redirect :"/"
+  redirect "/"
 end
 
 MyApp.get "/todos/new" do
+	@list_users = User.all
+	@category_list = Category.all
   erb :"todos/new"
 end
 
@@ -25,11 +28,14 @@ MyApp.post "/todos/create" do
 	todo.title = params[:title]
 	todo.description = params[:description]
 	todo.completed = false
-	todo.user_id = @current_user.id
+	todo.user_id = params[:user_id]
+
+	assigner = Assigner.new
+	assigner.user_id = @current_user.id
 
 	if todo.is_valid == true
 		todo.save
-  redirect :"todos/#{todo.id}/details"
+  redirect "todos/#{todo.id}/details"
 
 	else
 		@error_object = todo
@@ -45,12 +51,11 @@ end
 
 MyApp.post "/todos/:todo_id/edit" do
 	@todo = Todo.find(params[:todo_id])
-	@todo.assign_attributes({title: params['title'], description: params['description']})
-	@todo.user_id = @current_user.id
+	@todo.assign_attributes({title: params['title'], description: params['description'], user_id: params['user_id']})
 
 	if @todo.is_valid == true
 		@todo.save
-  redirect :"todos/#{@todo.id}/details"
+  redirect "todos/#{@todo.id}/details"
 
 	else
 		@error_object = @todo
@@ -62,7 +67,7 @@ end
 MyApp.post "/todos/:todo_id/delete" do
 	@todo = Todo.find(params[:todo_id])
 	@todo.delete
-  redirect :"success"
+  erb :"success"
 end
 
 

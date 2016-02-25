@@ -6,6 +6,27 @@
 
   <input type="text" name="description" placeholder="description">
 
+ 	<select name="user_id">
+
+		   <option selected disabled>Choose user to complete task:</option>
+				<% @list_users.each do |user| %>
+					<option value= "<%=user.id%>">
+						<%= user.name %>
+					</option>
+				<%end%>
+	  </select>
+
+ 	<% if @category_list != nil %>
+	 	<select name="category_id">
+			   <option selected disabled>Choose category:</option>
+					<% @category_list.each do |category| %>
+						<option value= "<%= category.id %>">
+							<%= category.name %>
+						</option>
+					<%end%>
+		  </select>
+	<% end %>
+
   <input type="submit">
   
 </form>

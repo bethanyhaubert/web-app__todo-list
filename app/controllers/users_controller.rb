@@ -1,10 +1,14 @@
-MyApp.before "/users/:user_id*" do
+MyApp.before "/users*" do
 	@current_user = User.find_by_id(session["user_id"])
-  	@user = User.find_by_id(params[:user_id])
-  	if @current_user != nil
+  	if @current_user == nil
   	   erb :"logins/denied_access"
 	end
 end
+
+MyApp.before "/users/:user_id/*" do
+	@user = User.find(params[:user_id])
+end
+  	
 
 MyApp.get "/users/create" do
   erb :"users/create"
@@ -18,7 +22,7 @@ MyApp.post "/users/new" do
 
 	if @user.is_valid == true
 	 	@user.save
-		redirect :"users/#{@user.id}/profile"
+		redirect "users/#{@user.id}/profile"
 	else
 		@error_object = @user
 		erb :"error"
@@ -34,7 +38,7 @@ MyApp.post "/users/:user_id/edit" do
 		@user.assign_attributes({name: params['name'], email: params['email'], password: params['password']})
 		if @user.is_valid == true
 			@user.save
-			redirect :"profile/#{@user.id}"
+			redirect "profile/#{@user.id}"
 		else
 			@error_object = @user
 			erb :"error"
@@ -57,3 +61,5 @@ MyApp.get "/users/show" do
 		@user_list = User.all
   		erb :"users/show"
 end
+
+

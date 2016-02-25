@@ -1,7 +1,7 @@
 <h1>Todo Info</h1>
 
 <h2> <%= @todo.title %> </h2> 
-<p> Last edited by <a href="/users/<%= @current_user.id %>/profile"><i><%= @current_user.name %>.</i></a> </p>
+<p> Assigned to <a href="/users/<%= @todo.user_id %>/profile"><i><%= @todo.user_id %>.</i></a> </p>
 
 <% if @todo.description != nil %>
 	<h3> <%= @todo.description %> </h3>
@@ -14,6 +14,16 @@ Edit this to do:<br>
   <input type="text" name="title" value="<%= @todo.title %>"> <br>
 
   <input type="text" name="description" value="<%= @todo.description %>"><br>
+  
+   	<select name="user_id">
+
+		   <option selected disabled>Choose user to complete task:</option>
+				<% @list_users.each do |user| %>
+					<option value= "<%=user.id%>">
+						<%= user.name %>
+					</option>
+				<%end%>
+	  </select>
 
   <input type="submit"><br>
 </form>
