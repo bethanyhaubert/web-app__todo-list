@@ -1,7 +1,8 @@
 MyApp.before "/users*" do
 	@current_user = User.find_by_id(session["user_id"])
   	if @current_user == nil
-  	   erb :"logins/denied_access"
+  		@error_object = "You must login first"
+  redirect "/"
 	end
 end
 
