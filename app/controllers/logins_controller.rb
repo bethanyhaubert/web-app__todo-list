@@ -1,18 +1,22 @@
 MyApp.post "/logins/create" do
   @user = User.find_by_email(params["email"])
 
-  if @user.password == params["password"]
-    session["user_id"] = @user.id
-
-    redirect "users/#{@user.id}/profile"
+  if params["password"] != nil
+    if @user.password == params["password"]
+      session["user_id"] = @user.id
+      session["temporary_error_message"] = nil
+     redirect "users/#{@user.id}/profile"
+    else
+      session["temporary_error_message"] = "Incorrect login information"
+     redirect "/"
+    end
   else
-  	@todo_list =  Todo.all
-  	@error_object = "You must login first"
-    erb :"index"
-  end
+      session["temporary_error_message"] = "Please create a new account"
+     redirect "/"
+   end
 end
 
 MyApp.get "/logins/sign_out" do
   session["user_id"] = nil
-  erb :"success"
+ erb :"success"
 end

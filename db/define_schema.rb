@@ -11,10 +11,8 @@ DB.define_column("todos", "description", "text")
 DB.define_column("todos", "completed", "boolean")
 DB.define_column("todos", "user_id", "integer")
 DB.define_column("todos", "category_id", "integer")
+DB.define_column("todos", "added_by", "integer")
+
 
 DB.define_table("categories")
 DB.define_column("categories", "name", "string")
-
-DB.define_table("assigners")
-DB.define_column("assigners", "user_id", "integer")
-DB.define_column("assigners", "todo_id", "integer")

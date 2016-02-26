@@ -11,13 +11,16 @@ MyApp.get "/" do
 	@category_list = Category.all
 	@current_user = User.find_by_id(session["user_id"])
 	if session["temporary_error_message"] != nil
-		@error = "Please log in."
+		@error = session["temporary_error_message"] 
 	end
   erb :"index"
 end
 
 MyApp.post "/todos/complete" do
+	if params["set_completed_todos"] != nil
 	Todo.set_as_complete(params["set_completed_todos"])
+	else
+	end
   redirect "/"
 end
 
@@ -33,9 +36,8 @@ MyApp.post "/todos/create" do
 	todo.description = params[:description].capitalize
 	todo.completed = false
 	todo.user_id = params[:user_id]
-
-	assigner = Assigner.new
-	assigner.user_id = @current_user.id
+	todo.category_id = params[:category_id]
+	todo.added_by = @current_user.id
 
 	if todo.is_valid == true
 		todo.save
@@ -50,6 +52,7 @@ end
 
 MyApp.get "/todos/:todo_id/details" do
 	@todo = Todo.find(params[:todo_id])
+	@list_users = User.all
   erb :"todos/details"
 end
 

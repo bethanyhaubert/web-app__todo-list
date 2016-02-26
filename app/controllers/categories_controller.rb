@@ -1,8 +1,8 @@
 MyApp.before "/categories*" do
 	@current_user = User.find_by_id(session["user_id"])
 	if @current_user == nil
-		@error_object = "You must login first"
-  redirect "/"
+  		session["temporary_error_message"] = "You must login first"  
+  	redirect "/"
 	end
 end
 
@@ -12,7 +12,7 @@ end
 
 MyApp.post "/categories/create" do
 	category = Category.new
-	category.name = params[:name]
+	category.name = params[:name].capitalize
 
 	if category.is_valid == true
 		category.save

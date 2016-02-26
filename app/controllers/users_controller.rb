@@ -1,13 +1,10 @@
-MyApp.before "/users*" do
-	@current_user = User.find_by_id(session["user_id"])
-  	if @current_user == nil
-  		@error_object = "You must login first"
-  redirect "/"
-	end
-end
-
 MyApp.before "/users/:user_id/*" do
+	@current_user = User.find_by_id(session["user_id"])
 	@user = User.find(params[:user_id])
+  	if @current_user == nil
+  		session["temporary_error_message"] = "You must login first"  
+  	redirect "/"
+	end
 end
   	
 

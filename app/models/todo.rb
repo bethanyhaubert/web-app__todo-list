@@ -1,5 +1,29 @@
 class Todo < ActiveRecord::Base
 
+
+    #Finds that Category name associated with this Todo object's id
+  #
+  # Returns that Category objects name
+  def assignee_name
+    user = User.find_by_id(self.user_id)
+    return user.name
+  end
+
+  #Finds that Category name associated with this Todo object's id
+  #
+  # Returns that Category objects name
+  def category_name
+    category = Category.find_by_id(self.category_id)
+    return category.name
+  end
+
+#Finds the User object related to this Todo object
+#
+#Returns the name of the User object
+ def who_assigned_this_todo
+  assigner = User.find_by_id(self.added_by)
+  return assigner.name
+ end
 #this method sets all todos to not completed
 #
 #returns nil
@@ -38,6 +62,14 @@ class Todo < ActiveRecord::Base
     	if self.title == ""
       	@errors << "Title cannot be blank"
     	end
+
+      if self.user_id == nil
+        @errors << "Must assign to a user"
+      end
+
+      if self.category_id == nil
+        @errors << "Must assign to a category"
+      end
   	end
 
   # Checks if the record is valid.

@@ -9,7 +9,7 @@
 <form action="/todos/complete" method="post">
   <% if @category_list != nil%>
     <% @category_list.each do |category| %>
-        <%= category.name %>
+        <a href="/categories/<%= category.id %>/details"><%= category.name %>
           <ul>
             <% if category.todos_that_belong_to_this_category != nil %>
               <% category.todos_that_belong_to_this_category.each do |todo| %>
@@ -17,7 +17,9 @@
               <input type="checkbox" name="set_completed_todos[]" value="<%= todo.id %>"
                 <%= "checked" if todo.completed? %>>
                 <label>
-                  <a href="/todo_info/<%= todo.id %>"> <%= todo.title %></a>
+                  <a href="/todos/<%= todo.id %>/details"> <%= todo.title %></a>
+                   - assigned to 
+                  <a href="/users/<%= todo.user_id %>/profile"> <i><%= todo.assignee_name %></i>
                 </label>
               </li>
               <% end %>
@@ -28,8 +30,9 @@
   <input type="submit">
  </form>
 
-<p><a href="/todos/new"> Add a new to-do </a></p>
 <p><a href="/categories/new"> Add a new category </a></p>
+
+<p><a href="/todos/new"> Add a new to-do </a></p>
 
 <h3>Log in</h3>
 

@@ -1,7 +1,23 @@
 <h1>Category Info</h1>
 
 <h2> <%= @category.name %> </h2> 
-
+		<ul>
+            <% if @category.todos_that_belong_to_this_category != nil %>
+              <% @category.todos_that_belong_to_this_category.each do |todo| %>
+            	<li> 
+             	 <input type="checkbox" name="set_completed_todos[]" value="<%= todo.id %>"
+                	<%= "checked" if todo.completed? %>>
+                <label>
+                  <a href="/todos/<%= todo.id %>/details"> 
+                  	<%= todo.title %> 
+                  </a>
+                  - assigned to 
+                  <a href="/users/<%= todo.user_id %>/profile"> <i><%= todo.assignee_name %></i>
+                </label>
+              </li>
+              <% end %>
+            <% end %>
+          </ul>
 
 Edit this cateogry:<br>
 <form action="/categories/<%= @category.id %>/edit" method="post">

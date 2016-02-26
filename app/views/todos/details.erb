@@ -1,7 +1,12 @@
 <h1>Todo Info</h1>
 
 <h2> <%= @todo.title %> </h2> 
-<p> Assigned to <a href="/users/<%= @todo.user_id %>/profile"><i><%= @todo.user_id %>.</i></a> </p>
+
+<h3> <%= @todo.category_name %> </h3> 
+
+<p>Created by <%= @todo.who_assigned_this_todo %></p>
+
+<p> Assigned to <a href="/users/<%= @todo.user_id %>/profile"><i><%= @todo.assignee_name %>.</i></a> </p>
 
 <% if @todo.description != nil %>
 	<h3> <%= @todo.description %> </h3>
